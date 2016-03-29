@@ -1,6 +1,9 @@
 <div class="box">
   <h2 class="box-title">ログイン</h2>
   <div class="box-inner">
+    <% flash.each do |message_type, message| %>
+    <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
     <%= form_for(:session, url: login_path) do |f| %>
       <div class="form-group">
         <%= f.text_field :email, class: "form-control", placeholder: "メールアドレス" %>
