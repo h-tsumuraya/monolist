@@ -1,6 +1,8 @@
 <div class="container">
   <div class="container-inner inner-default clearfix">
+    <% counter = 0 %>
     <% items.each do |item| %>
+      <% counter += 1 %>
       <div class="item-box">
         <div class="image">
           <div class="img-wrap">
@@ -13,6 +15,9 @@
         </div>
         <div class="detail">
           <p class="title">
+            <% if ranking %>
+            <span>【<%= counter %>位】</span>
+            <% end %>
             <%= item.title %>
           </p>
         </div>
