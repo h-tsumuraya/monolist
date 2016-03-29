@@ -17,14 +17,34 @@
           </p>
         </div>
         <div class="action clearfix">
-          <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Want") ,
-                      :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
-                      :remote => true,
-                      :method => :post %>
-          <%= link_to "" , ownerships_path(asin: item.get('ASIN') , type: "Have") ,
-                      :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
-                      :remote => true,
-                      :method => :post %>
+          <% # wantしているかどうか %>
+          <% want_item = current_user.want_items.find_by(asin: item.get('ASIN')) %>
+          <% if want_item %>
+            <% #すでにwant済み %>
+            <%= link_to "" , ownership_path(want_item.id, type: "Want") ,
+                        :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want_it",
+                        :remote => true,
+                        :method => :delete %>
+          <% else %>
+            <%= link_to "" , ownerships_path(asin: item.get('ASIN'), type: "Want") ,
+                        :class => "want-#{item.get('ASIN')} btn-want btn btn-danger btn-sm want",
+                        :remote => true,
+                        :method => :post %>
+          <% end %>
+
+          <% have_item = current_user.have_items.find_by(asin: item.get('ASIN')) %>
+          <% if have_item %>
+            <% #すでにhave済み %>
+            <%= link_to "" , ownership_path(have_item.id, type: "Have"),
+                        :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have_it",
+                        :remote => true,
+                        :method => :delete %>
+          <% else %>
+            <%= link_to "" , ownerships_path(asin: item.get('ASIN'), type: "Have") ,
+                        :class => "have-#{item.get('ASIN')} btn-have btn btn-warning btn-sm have",
+                        :remote => true,
+                        :method => :post %>
+          <% end %>
         </div>
       </div>
     <% end %>
