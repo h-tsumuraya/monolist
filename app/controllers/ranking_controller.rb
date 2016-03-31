@@ -11,10 +11,8 @@ class RankingController < ApplicationController
 
   def get_items(clazz)
     @items = []
-    # item_idでグループ化し、重複数の降順で並び替えて、keyを取得
-    ids = Hash[clazz.group(:item_id).count.sort_by { |_, v| -v }].each do |key, value|
-      # selectを何回も読んでしまっている
-      item = Item.find(key)
+
+    clazz.group(:item).count.sort_by(&:last).reverse.each do |item, value|
       item.rank = value
       @items.push item
 
@@ -22,8 +20,8 @@ class RankingController < ApplicationController
       if @items.size >= 10
         break
       end
-
     end
+
   end
 
 end
