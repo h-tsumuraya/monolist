@@ -10,18 +10,7 @@ class RankingController < ApplicationController
   private
 
   def get_items(clazz)
-    @items = []
-
-    clazz.group(:item).count.sort_by(&:last).reverse.each do |item, value|
-      item.rank = value
-      @items.push item
-
-      # 10位まで
-      if @items.size >= 10
-        break
-      end
-    end
-
+    @items = clazz.group(:item).count.sort_by(&:last).reverse.shift(10)
   end
 
 end
